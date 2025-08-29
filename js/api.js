@@ -4,6 +4,8 @@ const BASE = "https://1717e8549964.ngrok-free.app"; //"http://127.0.0.1:8000";
 function defaultHeaders(extra = {}) {
   return {
     'ngrok-skip-browser-warning': 'true',  // <--- important!
+    'Content-Type': 'application/json',
+
     ...extra,
   };
 }
