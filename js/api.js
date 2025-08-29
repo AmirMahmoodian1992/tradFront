@@ -1,5 +1,12 @@
 // api.js
-const BASE = "https://8757a124aea5.ngrok-free.app";
+const BASE = "https://1717e8549964.ngrok-free.app"; //"http://127.0.0.1:8000";
+
+function defaultHeaders(extra = {}) {
+  return {
+    'ngrok-skip-browser-warning': 'true',  // <--- important!
+    ...extra,
+  };
+}
 
 export function buildUrl(path, params = {}) {
   const url = new URL(BASE + path);
@@ -11,7 +18,7 @@ export function buildUrl(path, params = {}) {
 }
 
 export async function fetchJSON(url) {
-  const r = await fetch(url);
+  const r = await fetch(url, { headers: defaultHeaders() });
   if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
   return r.json();
 }
@@ -19,8 +26,8 @@ export async function fetchJSON(url) {
 export async function postJSON(url, body) {
   const r = await fetch(url, {
     method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(body)
+    headers: defaultHeaders({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify(body),
   });
   if (!r.ok) throw new Error(`${r.status} ${r.statusText}`);
   return r.json();
